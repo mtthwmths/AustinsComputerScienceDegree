@@ -1,0 +1,24 @@
+//script for hillary to email students who've yet to pay their dues from google sheets
+
+function sendEmails() {
+  var sheet = SpreadsheetApp.getActiveSheet();
+  var startRow = 2;  // First row of data to process
+  var numRows = 8;   // Number of rows to process
+  var numColumns = 4; //numer of columns to process
+  var startColumn = 1; //first column of data to process
+  var dues = 10; //amount of dues to be payed
+  // Fetch the range of cells
+  var dataRange = sheet.getRange(startRow, startColumn, numRows, numColumns)
+  // Fetch values for each row in the Range.
+  var data = dataRange.getValues();
+  for (var i = 0; i < data.length; ++i) {
+    var row = data[i];
+    var emailAddress = row[1];  // second column
+    var message = row[2];       // third column
+    var duesPayed = row[3];     // fourth column
+    if (duesPayed < dues) {  // 
+      var subject = "FBLA Dues notice";
+      MailApp.sendEmail(emailAddress, subject, message);
+    }
+  }
+}
